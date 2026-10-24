@@ -4,7 +4,17 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { AlertCircle, X } from 'lucide-react'
 import { AnalyticsHeader } from '@/components/analytics/AnalyticsHeader'
 import { AnalyticsMetrics } from '@/components/analytics/AnalyticsMetrics'
-import { AnalyticsCharts } from '@/components/analytics/AnalyticsCharts'
+import dynamic from 'next/dynamic'
+
+const AnalyticsCharts = dynamic(
+  () => import('@/components/analytics/AnalyticsCharts').then((m) => m.AnalyticsCharts),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="h-[320px] rounded-2xl bg-slate-800/50 border border-slate-700/50 animate-pulse" />
+    ),
+  },
+)
 import { RangeKey, buildPeriod, formatBucketTooltipLabel } from '@/components/analytics/analyticsTheme'
 import {
   analyticsApi,

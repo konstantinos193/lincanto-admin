@@ -5,7 +5,6 @@ import { Calendar, Download, FileSpreadsheet, FileText, ChevronDown } from 'luci
 import { bookingsApi } from '@/lib/api/bookings'
 import { Booking } from '@/lib/api/types'
 import { CreateBookingDialog } from './CreateBookingDialog'
-import * as XLSX from 'xlsx'
 
 const EXPORT_HEADERS = [
   'ID',
@@ -76,7 +75,8 @@ function exportCSV(bookings: Booking[]) {
   URL.revokeObjectURL(url)
 }
 
-function exportExcel(bookings: Booking[]) {
+async function exportExcel(bookings: Booking[]) {
+  const XLSX = await import('xlsx')
   const rows = buildRows(bookings)
   const ws = XLSX.utils.aoa_to_sheet([EXPORT_HEADERS, ...rows])
 
@@ -136,7 +136,7 @@ export function BookingsHeader({ onBookingCreated }: BookingsHeaderProps) {
         return
       }
       if (format === 'csv') exportCSV(bookings)
-      else exportExcel(bookings)
+      else await exportExcel(bookings)
     } catch (error: any) {
       console.error('Export error:', error)
       alert(`Αποτυχία εξαγωγής: ${error?.message || 'Άγνωστο σφάλμα'}`)

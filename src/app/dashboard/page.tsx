@@ -1,9 +1,21 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import { useAuth } from '@/lib/auth/AuthContext'
 import { StatsCards } from '@/components/dashboard/StatsCards'
-import { RevenueChart } from '@/components/dashboard/RevenueChart'
-import { BookingTrendsChart } from '@/components/dashboard/BookingTrendsChart'
+
+const ChartFallback = () => (
+  <div className="h-[300px] rounded-2xl bg-slate-800/50 border border-slate-700/50 animate-pulse" />
+)
+
+const RevenueChart = dynamic(
+  () => import('@/components/dashboard/RevenueChart').then((m) => m.RevenueChart),
+  { ssr: false, loading: ChartFallback },
+)
+const BookingTrendsChart = dynamic(
+  () => import('@/components/dashboard/BookingTrendsChart').then((m) => m.BookingTrendsChart),
+  { ssr: false, loading: ChartFallback },
+)
 import { TodaysActivity } from '@/components/dashboard/TodaysActivity'
 import { MaintenanceAlerts } from '@/components/dashboard/MaintenanceAlerts'
 import { PaymentStatus } from '@/components/dashboard/PaymentStatus'
