@@ -397,6 +397,7 @@ docker run -d \
     --memory-swap "$SITE_MEM_LIMIT" \
     --memory-reservation "$SITE_MEM_RESERVATION" \
     --network stefanos-net \
+    -v admin-image-cache:/app/.next/cache \
     -p "127.0.0.1:${PORT}:3000" \
     -e NODE_ENV=production \
     -e NEXT_TELEMETRY_DISABLED=1 \
