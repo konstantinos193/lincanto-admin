@@ -130,7 +130,7 @@ http:
       entryPoints: [websecure]
       rule: "Host(\`$SITE_DOMAIN\`)"
       priority: 100
-      middlewares: [admin-web-ratelimit, st-inflight@file, st-compress@file]
+      middlewares: [admin-web-ratelimit, st-inflight@file, st-compress@file, st-secure-headers@file]
       service: admin-site
       $TLS_BLOCK
 EOF
